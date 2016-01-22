@@ -1,0 +1,43 @@
+﻿<script type="text/javascript" src="Scripts/angular/angular.min.js"></script>
+<script type="text/javascript" src="Scripts/cart.js"></script>
+<div ng-app="shopCart">
+    <form ng-controller="FormCtrl" ng-submit="submitForm()">
+        <h1>Dev Shop</h1>
+        <h3>Add a developer</h3>
+        <input type="text" ng-model="username" name="DevName" placeholder="GitHub Username" />
+        <input type="text" ng-model="hours" name="DevHours" placeholder="Hours" />
+        <input type="text" ng-model="price" name="DevPrice" placeholder="Price per hour" />
+        <input type="submit" id="submit" value="Submit" />
+        <h3>Cart</h3>
+        <table border="1">
+            <tr>
+                <th>Username</th>
+                <th>Price per hour</th>
+                <th>Requested hours</th>
+                <th>Total price</th>
+            </tr>
+            <tr ng-repeat ="Developer in Developers">
+                <td>{{Developer.Username}}</td>
+                <td>{{Developer.Price}}</td>
+                <td>{{Developer.Hours}}</td>
+                <td>{{Developer.TotalPrice}}</td>
+            </tr>
+            <tr>
+                <th>Cart total price:</th>
+                <th>{{ getCartTotalPrice() }}</th>
+            </tr>
+        </table>
+
+
+    </form>
+</div>
+
+<!--<script>
+    var app = angular.module("Shop", []);
+    app.controller("ShopController", function ($scope, $http) {
+        $http.get('http://localhost:52439/api/shop').then(function (response) {
+            alert(response.data);
+        });
+    }
+    );
+</script>

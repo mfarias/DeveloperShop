@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Octokit;
+using System.Web.Http.Cors;
 
 namespace DeveloperShopAPI.Controllers
 {
@@ -17,28 +18,32 @@ namespace DeveloperShopAPI.Controllers
         {
             ShopCart shop = new ShopCart();
             shop.Developers = new List<Developer>();
-            shop.Developers.Add(new Developer() { Name = "Marcela Farias", Username = "mfarias"});
-            shop.Developers.Add(new Developer() { Name = "Luciano Fernandes", Username = "lfernandes" });
+            shop.Developers.Add(new Developer() { Username = "mfarias" });
+            shop.Developers.Add(new Developer() { Username = "lfernandes" });
             return shop;
         }
 
-        //// GET api/shop/devinfo/{username}
-        //public string GetDeveloperInfo(string username)
-        //{
-        //    var github = new GitHubClient(new Octokit.ProductHeaderValue("MyAmazingApp"));
-        //    var user = github.User.Get("mfarias");
-        //    return "whatever";
-        //}
-
-
-        // POST api/values
-        public void AddDeveloperToCart([FromBody]string value)
+        // GET api/shop/devinfo/{username}
+        public async Task<User> GetDeveloperInfo(string username)
         {
+            var github = new GitHubClient(new ProductHeaderValue("DeveloperShop"));
+            var user = await github.User.Get("mfarias");
+            return user;
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        // GET api/shop/organization/{org}
+        public async Task<List<Developer>> GetDevelopersFromOrganization(string org)
         {
+            var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
+            var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
+            var devs = await orgMembers.GetAll(org);
+            return devs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login }).ToList();
+        }
+
+        // PUT api/values/dev
+        public void AddDeveloperToCart(string dev)
+        {
+
         }
 
     }

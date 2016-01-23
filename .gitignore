@@ -10,7 +10,6 @@ packages/
 DeveloperShop/bin
 DeveloperShopAPI/bin
 DeveloperShopAPI.Tests/bin
-DeveloperShop/Scripts
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/

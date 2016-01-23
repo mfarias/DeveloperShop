@@ -6,8 +6,9 @@ using System.Web;
 namespace DeveloperShopAPI.Models
 {
     public class Developer
-    {
+    {        
+        public string Avatar { get; set; }
         public string Username { get; set; }
-        public string Name { get; set; }
+
     }
 }

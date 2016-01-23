@@ -2,30 +2,22 @@
 
 app.controller('FormCtrl', function ($scope, $http) {
 
-    $scope.Developers = []
+    $scope.devs = []
 
     var formData = {
-        username: "",
-        price: ""
+        orgName: ""
     };
 
     $scope.submitForm = function () {
         formData = $scope.form;
-        $scope.Developers.push({
-            "Username": $scope.username,
-            "Price": $scope.price,
-            "Hours": $scope.hours,
-            "TotalPrice": $scope.price * $scope.hours
+
+        $http.get("/api/api/shop/organization/",{
+            params:{org: $scope.orgName}
+        }
+        ).success(function (data, status, headers, config) {
+            $scope.devs = data;
+        }).error(function (data, status, headers, config) {
+            alert("data:" + data + " " + "status:" + status + " " + "headers:" + headers + " " + "config:" + config);
         });
     };
-
-    $scope.getCartTotalPrice = function () {
-        var total = 0;
-        for (var i = 0; i < $scope.Developers.length; i++) {
-            var dev = $scope.Developers[i];
-            total += dev.TotalPrice;
-        }
-        return total;
-    };
-
 });

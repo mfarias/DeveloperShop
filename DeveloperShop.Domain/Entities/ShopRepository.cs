@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DeveloperShopAPI.Models
+namespace DeveloperShop.Domain.Entities
 {
-    public class ShopRepository: IShopRepository
+    public class ShopRepository
     {
         private ShopCart shopcart = new ShopCart();
 
@@ -17,11 +17,6 @@ namespace DeveloperShopAPI.Models
         public void AddToCart(Developer dev)
         {
             shopcart.Developers.Add(dev);
-        }
-
-        public void Dispose()
-        {
-            this.Dispose();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DeveloperShopAPI.Models;
+﻿using DeveloperShop.Domain;
+using DeveloperShop.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,34 +14,39 @@ namespace DeveloperShopAPI.Controllers
 {
     public class ShopController : ApiController
     {
-        static readonly IShopRepository repository = new ShopRepository();
+        static readonly ShopRepository repository = new ShopRepository();
 
-        // GET api/shop
+        private GitApiProxy _gitProvider = new GitApiProxy();
+
+        // GET shop
         public ShopCart GetShopCart()
         {
             return repository.GetShopCart();
         }
 
-        // GET api/shop/devinfo/{username}
-        public async Task<User> GetDeveloperInfo(string username)
+        // GET shop/devinfo/{username}
+        public async Task<User> GetDeveloperInfo(string id)
         {
             var github = new GitHubClient(new ProductHeaderValue("DeveloperShop"));
-            var user = await github.User.Get(username);
-            return user;
+            return await github.User.Get(id);
         }
 
+        
         // GET api/shop/organization/{org}
-        public async Task<List<Developer>> GetDevelopersFromOrganization(string org)
+        public async Task<IEnumerable<Developer>> GetDevelopersFromOrganization(string org)
         {
-            var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
-            var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
-            var devs = await orgMembers.GetAll(org);
-            return devs.Select(x => new Developer
-            {
-                Avatar = x.AvatarUrl,
-                Username = x.Login,
-                Price = Developer.SetDeveloperPrice(x.Collaborators, x.Followers, x.TotalPrivateRepos + x.PublicRepos, x.PrivateGists + x.PublicGists)
-            }).ToList();
+            return await _gitProvider.GetDevelopersFromOrganization(org);
+
+            //var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
+            //var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
+            //var devs = await orgMembers.GetAll(org);
+            //return devs.Select(x => _gitProvider.GetDeveloperInfo(x.Login)).ToList();
+
+            //return devs.Select(x => new Developer
+            //{
+            //    Avatar = x.AvatarUrl,
+            //    Username = x.Login
+            //}).ToList();
         }
 
         // POST api/shop/addtocart/{dev}/{hours}
@@ -48,19 +54,25 @@ namespace DeveloperShopAPI.Controllers
         public async Task<Developer[]> AddDeveloperToCart([FromBody] CartItem c)
         {
             var user = await GetDeveloperInfo(c.devuser);
-
-            var dev = new Developer
-            {
-                Avatar = user.AvatarUrl,
-                Hours = c.hours,
-                Price = Developer.SetDeveloperPrice(user.Collaborators, user.Followers, user.TotalPrivateRepos + user.PublicRepos, user.PrivateGists + user.PublicGists),
-                Username = user.Login
-            };
-
+            var dev = user.ConvertGitUserToDeveloper();
+            dev.Hours = c.hours;
             repository.AddToCart(dev);
             return repository.GetShopCart().Developers.ToArray();
         }
 
+    }
+
+    public static class GitExtensions
+    {
+        public static Developer ConvertGitUserToDeveloper(this User self)
+        {
+            return new Developer
+            {
+                Avatar = self.AvatarUrl,
+                Username = self.Login,
+                Followers = self.Followers
+            };
+        }
     }
 
     public class CartItem

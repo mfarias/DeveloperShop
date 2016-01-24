@@ -12,8 +12,8 @@ namespace DeveloperShopAPI
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "{controller}/{action}/{id}",
+                defaults: new { controller = "shop", action = "Get", id = RouteParameter.Optional  }
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

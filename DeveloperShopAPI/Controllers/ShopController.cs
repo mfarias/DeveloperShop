@@ -13,14 +13,12 @@ namespace DeveloperShopAPI.Controllers
 {
     public class ShopController : ApiController
     {
+        static readonly IShopRepository repository = new ShopRepository();
+
         // GET api/shop
         public ShopCart GetShopCart()
         {
-            ShopCart shop = new ShopCart();
-            shop.Developers = new List<Developer>();
-            shop.Developers.Add(new Developer() { Username = "mfarias" });
-            shop.Developers.Add(new Developer() { Username = "lfernandes" });
-            return shop;
+            return repository.GetShopCart();
         }
 
         // GET api/shop/devinfo/{username}
@@ -37,13 +35,25 @@ namespace DeveloperShopAPI.Controllers
             var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
             var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
             var devs = await orgMembers.GetAll(org);
-            return devs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login }).ToList();
+            return devs.Select(x => new Developer { 
+                Avatar = x.AvatarUrl, 
+                Username = x.Login,
+                Price = Developer.SetDeveloperPrice(x.Collaborators, x.Followers, x.TotalPrivateRepos + x.PublicRepos, x.PrivateGists + x.PublicGists)
+            }).ToList();
         }
 
-        // PUT api/values/dev
-        public void AddDeveloperToCart(string dev)
+        // POST api/shop/addtocart/{dev}/{hours}
+        public void AddDeveloperToCart(string devuser, int hours)
         {
-
+            Task<User> taskDev = GetDeveloperInfo(devuser);
+            User dev = taskDev.Result;
+            repository.AddToCart(new Developer
+            {
+                Avatar = dev.AvatarUrl,
+                Hours = hours,
+                Price = Developer.SetDeveloperPrice(dev.Collaborators, dev.Followers, dev.TotalPrivateRepos + dev.PublicRepos, dev.PrivateGists + dev.PublicGists),
+                Username = dev.Login
+            });
         }
 
     }

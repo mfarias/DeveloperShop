@@ -29,8 +29,8 @@
                         <td><img ng-src="{{dev.Avatar}}" width="96" height="96" /></td>
                         <td>{{dev.Username}}</td>
                         <td></td>
-                        <td></td>
-                        <td><button type="submit">Add to cart</button></td>
+                        <td><input type="text" placeholder="Hours" ng-model="hours"/></td>
+                        <td><button type="submit" ng-click="addToCart(dev.Username, hours)">Add to cart</button></td>
                     </tr>
                 </table>
             </div>

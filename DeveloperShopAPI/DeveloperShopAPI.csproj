@@ -173,7 +173,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Developer.cs" />
+    <Compile Include="Models\IShopRepository.cs" />
     <Compile Include="Models\ShopCart.cs" />
+    <Compile Include="Models\ShopRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

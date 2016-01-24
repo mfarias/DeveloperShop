@@ -35,9 +35,9 @@
                     <tr ng-repeat="dev in devs">
                         <td class="col-md-1"><img ng-src="{{dev.Avatar}}" width="96" height="96" /></td>
                         <td class="col-md-1">{{dev.Username}}</td>
-                        <td class="col-md-1"></td>
+                        <td class="col-md-1">{{dev.Price}}</td>
                         <td class="col-md-1"><input class="form-control" type="text" placeholder="Hours" ng-model="hours" /></td>
-                        <td class="col-md-1"><button class="form-control" type="submit" ng-click="addToCart(dev.Username, hours)">Add to cart</button></td>
+                        <td class="col-md-1"><button class="btn btn-md" type="submit" ng-click="addToCart(dev.Username, hours)">Add to cart</button></td>
                     </tr>
                 </table>
             </div>

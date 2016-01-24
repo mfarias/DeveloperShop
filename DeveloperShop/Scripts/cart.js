@@ -28,19 +28,27 @@ app.controller('FormCtrl', function ($scope, $http) {
         if (hours <= 0)
             alert("Number of hours must be a positive value.");
         else {
-            $http.post("/api/api/shop/addtocart/", {
-                params: {
-                    dev: username,
-                    hours: hours
-                },
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                }
-            }).success(function (data, status, headers, config) {
-                alert("Developer added successfully added to cart.")
-            }).error(function (data, status, headers, config) {
-                alert("It was not possible to add developer to cart.")
-            });
+            var cartItem = { 
+                'devuser': username,
+                'hours': hours
+            };
+            $http
+               .post("/api/api/shop/addtocart/", JSON.stringify(cartItem))
+               .success(function (data, status, headers, config) {
+                   data.forEach(function (item) {
+                       var devToRemove = $.grep($scope.devs, function (e) { return e.Username === item.Username; });
+                       if (devToRemove.length > 0) {
+                           var indexOfItem = $scope.devs.indexOf(devToRemove[0]);
+                           if (indexOfItem > -1) {
+                               $scope.devs.splice(indexOfItem, 1);
+                           }
+                       }
+                   });
+                    alert("Developer added successfully added to cart.")
+               })
+                .error(function (data, status, headers, config) {
+                    alert("It was not possible to add developer to cart.")
+                });
         }
     }
 });

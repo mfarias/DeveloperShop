@@ -25,7 +25,7 @@ namespace DeveloperShopAPI.Controllers
         public async Task<User> GetDeveloperInfo(string username)
         {
             var github = new GitHubClient(new ProductHeaderValue("DeveloperShop"));
-            var user = await github.User.Get("mfarias");
+            var user = await github.User.Get(username);
             return user;
         }
 
@@ -35,26 +35,38 @@ namespace DeveloperShopAPI.Controllers
             var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
             var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
             var devs = await orgMembers.GetAll(org);
-            return devs.Select(x => new Developer { 
-                Avatar = x.AvatarUrl, 
+            return devs.Select(x => new Developer
+            {
+                Avatar = x.AvatarUrl,
                 Username = x.Login,
                 Price = Developer.SetDeveloperPrice(x.Collaborators, x.Followers, x.TotalPrivateRepos + x.PublicRepos, x.PrivateGists + x.PublicGists)
             }).ToList();
         }
 
         // POST api/shop/addtocart/{dev}/{hours}
-        public void AddDeveloperToCart(string devuser, int hours)
+        [HttpPost]
+        public async Task<Developer[]> AddDeveloperToCart([FromBody] CartItem c)
         {
-            Task<User> taskDev = GetDeveloperInfo(devuser);
-            User dev = taskDev.Result;
-            repository.AddToCart(new Developer
+            var user = await GetDeveloperInfo(c.devuser);
+
+            var dev = new Developer
             {
-                Avatar = dev.AvatarUrl,
-                Hours = hours,
-                Price = Developer.SetDeveloperPrice(dev.Collaborators, dev.Followers, dev.TotalPrivateRepos + dev.PublicRepos, dev.PrivateGists + dev.PublicGists),
-                Username = dev.Login
-            });
+                Avatar = user.AvatarUrl,
+                Hours = c.hours,
+                Price = Developer.SetDeveloperPrice(user.Collaborators, user.Followers, user.TotalPrivateRepos + user.PublicRepos, user.PrivateGists + user.PublicGists),
+                Username = user.Login
+            };
+
+            repository.AddToCart(dev);
+            return repository.GetShopCart().Developers.ToArray();
         }
 
+    }
+
+    public class CartItem
+    {
+        public object data { get; set; }
+        public string devuser { get; set; }
+        public int hours { get; set; }
     }
 }

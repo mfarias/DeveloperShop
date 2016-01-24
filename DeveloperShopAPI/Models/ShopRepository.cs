@@ -7,7 +7,7 @@ namespace DeveloperShopAPI.Models
 {
     public class ShopRepository: IShopRepository
     {
-        private ShopCart shopcart { get; set; }
+        private ShopCart shopcart = new ShopCart();
 
         public ShopCart GetShopCart()
         {

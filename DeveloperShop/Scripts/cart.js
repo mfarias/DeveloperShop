@@ -3,6 +3,7 @@
 app.controller('FormCtrl', function ($scope, $http) {
 
     $scope.devs = []
+    $scope.showDevs = true;
 
     var formData = {
         orgName: ""
@@ -15,9 +16,10 @@ app.controller('FormCtrl', function ($scope, $http) {
             params:{org: $scope.orgName}
         }
         ).success(function (data, status, headers, config) {
+            $scope.showDevs = true;
             $scope.devs = data;
         }).error(function (data, status, headers, config) {
-            alert("data:" + data + " " + "status:" + status + " " + "headers:" + headers + " " + "config:" + config);
+            $scope.showDevs = false;
         });
     };
 });

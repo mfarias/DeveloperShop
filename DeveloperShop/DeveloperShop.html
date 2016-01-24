@@ -3,28 +3,39 @@
 <script type="text/javascript" src="Scripts/jquery-2.2.0.min.js"></script>
 <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" href="Content/bootstrap.min.css" />
-<div class="row">
-    <div class="col-sm-6">
-        <div ng-app="shopCart">
-            <form class="form-inline" ng-controller="FormCtrl" ng-submit="submitForm()">
-                <h1>Dev Shop</h1>
-                <h3>Add organization name</h3>
-                <input class="form-control" type="text" ng-model="orgName" name="orgName" placeholder="Organization" />
-                <input class="form-control" type="submit" id="submit" value="Submit" />
-                <h3>Developers List</h3>
-                <table class="table">
+<div ng-app="shopCart">
+    <div class="row">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-6">
+            <div id="devsList" ng-controller="FormCtrl">
+                <form class="form-inline">
+                    <h1>Dev Shop</h1>
+                    <h3>Add organization name</h3>
+                    <input class="form-control" type="text" ng-model="orgName" name="orgName" placeholder="Organization" />
+                    <button class="form-control" type="submit" id="submit" ng-click="submitForm()" value="Submit">Submit</button>
+                </form>
+
+                <h3 ng-show="showDevs">Developers List</h3>
+                <table class="table" ng-show="showDevs">
                     <tr>
                         <th>Avatar</th>
                         <th>Username</th>
+                        <th>Price</th>
+                        <th>Number of hours</th>
+                        <th></th>
                     </tr>
                     <tr ng-repeat="dev in devs">
-                        <td><img ng-src="{{dev.Avatar}}"/></td>
+                        <td><img ng-src="{{dev.Avatar}}" width="96" height="96" /></td>
                         <td>{{dev.Username}}</td>
+                        <td></td>
+                        <td></td>
+                        <td><button type="submit">Add to cart</button></td>
                     </tr>
                 </table>
+            </div>
 
-
-            </form>
+            
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@ app.controller('FormCtrl', function ($scope, $http) {
     $scope.submitForm = function () {
         formData = $scope.form;
 
-        $http.get("/api/api/shop/organization/", {
+        $http.get("/api/shop/organization/", {
             params: { org: $scope.orgName }
         }
         ).success(function (data, status, headers, config) {
@@ -33,7 +33,7 @@ app.controller('FormCtrl', function ($scope, $http) {
                 'hours': hours
             };
             $http
-               .post("/api/api/shop/addtocart/", JSON.stringify(cartItem))
+               .post("/api/shop/addtocart/", JSON.stringify(cartItem))
                .success(function (data, status, headers, config) {
                    data.forEach(function (item) {
                        var devToRemove = $.grep($scope.devs, function (e) { return e.Username === item.Username; });

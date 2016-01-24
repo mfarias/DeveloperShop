@@ -12,7 +12,7 @@ namespace DeveloperShopAPI
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{action}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { controller = "shop", action = "Get", id = RouteParameter.Optional  }
             );
 

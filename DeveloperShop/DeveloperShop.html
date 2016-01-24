@@ -3,39 +3,44 @@
 <script type="text/javascript" src="Scripts/jquery-2.2.0.min.js"></script>
 <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" href="Content/bootstrap.min.css" />
+
+
 <div ng-app="shopCart">
-    <div class="row">
-        <div class="col-sm-2">
-        </div>
-        <div class="col-sm-6">
-            <div id="devsList" ng-controller="FormCtrl">
+    <div id="devsList" ng-controller="FormCtrl">
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-6">
                 <form class="form-inline">
                     <h1>Dev Shop</h1>
                     <h3>Add organization name</h3>
                     <input class="form-control" type="text" ng-model="orgName" name="orgName" placeholder="Organization" />
                     <button class="form-control" type="submit" id="submit" ng-click="submitForm()" value="Submit">Submit</button>
                 </form>
-
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-6">
                 <h3 ng-show="showDevs">Developers List</h3>
                 <table class="table" ng-show="showDevs">
                     <tr>
                         <th>Avatar</th>
                         <th>Username</th>
                         <th>Price</th>
-                        <th>Number of hours</th>
+                        <th>Hours</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="dev in devs">
-                        <td><img ng-src="{{dev.Avatar}}" width="96" height="96" /></td>
-                        <td>{{dev.Username}}</td>
-                        <td></td>
-                        <td><input type="text" placeholder="Hours" ng-model="hours"/></td>
-                        <td><button type="submit" ng-click="addToCart(dev.Username, hours)">Add to cart</button></td>
+                        <td class="col-md-1"><img ng-src="{{dev.Avatar}}" width="96" height="96" /></td>
+                        <td class="col-md-1">{{dev.Username}}</td>
+                        <td class="col-md-1"></td>
+                        <td class="col-md-1"><input class="form-control" type="text" placeholder="Hours" ng-model="hours" /></td>
+                        <td class="col-md-1"><button class="form-control" type="submit" ng-click="addToCart(dev.Username, hours)">Add to cart</button></td>
                     </tr>
                 </table>
             </div>
-
-            
         </div>
     </div>
 </div>

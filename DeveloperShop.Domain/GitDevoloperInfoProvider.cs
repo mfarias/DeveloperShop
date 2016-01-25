@@ -17,17 +17,25 @@ namespace DeveloperShop.Domain
             _gitHubClient = gitHubClient ?? new GitHubClient(new ProductHeaderValue("DeveloperShop"));
         }
 
-        public virtual Developer GetDeveloperInfo(string username)
+        public async Task<Developer> GetDeveloperInfo(string username)
         {
-            var userInfo = _gitHubClient.User.Get(username).Result;
-            return new Developer
+            try
             {
-                Avatar = userInfo.AvatarUrl,
-                Username = userInfo.Login,
-                Followers = userInfo.Followers,
-                //Stars = _gitHubClient.Repository.GetAllForUser(username).Result.Sum(x => x.StargazersCount),
-                //Watchers = _gitHubClient.Activity.Watching.GetAllForUser(username).Result.Count
-            };
+                var gitHubClient = new GitHubClient(new ProductHeaderValue("DeveloperShop"));
+                var userInfo = await gitHubClient.User.Get(username);
+                return new Developer
+                {
+                    Avatar = userInfo.AvatarUrl,
+                    Username = userInfo.Login,
+                    Followers = userInfo.Followers
+                    //Stars = _gitHubClient.Repository.GetAllForUser(username).Result.Sum(x => x.StargazersCount),
+                    //Watchers = _gitHubClient.Activity.Watching.GetAllForUser(username).Result.Count
+                };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async virtual Task<IEnumerable<Developer>> GetDevelopersFromOrganization(string organizationName)
@@ -35,8 +43,8 @@ namespace DeveloperShop.Domain
             var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
             var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
             var orgDevs = await orgMembers.GetAll(organizationName);
-            return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login, Followers = x.Followers }).ToList();
-            //return orgDevs.Select(x => GetDeveloperInfo(x.Login)).ToList();
+            return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login}).ToList();
+            //return orgDevs.Select(x => GetDeveloperInfo(x.Login).Result);
         }
     }
 }

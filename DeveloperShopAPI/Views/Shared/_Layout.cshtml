@@ -2,31 +2,29 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewBag.Title</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" >
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="~/Content/bootstrap-theme.min.css">
+
     @*@Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body>
-    <header>
-        <div class="content-wrapper">
-            <div class="float-left">
-                <p class="site-title">
-                    <a href="~/">ASP.NET Web API</a></p>
-            </div>
-            <div class="float-right">
-                <nav>
-                    <ul id="menu">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
-    @RenderBody()
+    <div class="container">
+        <h1>Dev Shop</h1>
 
-    @*@Scripts.Render("~/bundles/jquery")*@
-    @RenderSection("scripts", required: false)
+        @RenderBody()
+
+
+    </div>    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/jquery-2.2.0.min.js" type="text/javascript"></script>
+        @*@Scripts.Render("~/bundles/jquery")*@
+        @RenderSection("scripts", required: false)
 </body>
 </html>

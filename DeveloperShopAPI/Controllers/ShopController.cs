@@ -19,9 +19,12 @@ namespace DeveloperShopAPI.Controllers
         private GitApiProxy _gitProvider = new GitApiProxy();
 
         // GET shop
-        public ShopCart GetShopCart()
+        public List<CartDevInfo> GetShopCart()
         {
-            return repository.GetShopCart();
+            return repository.GetShopCart().Developers.Select(x=> new CartDevInfo{
+                Username = x.Username,
+                TotalPrice = x.Price * x.Hours
+            }).ToList();
         }
 
         // GET shop/devinfo/{username}

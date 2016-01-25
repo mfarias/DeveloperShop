@@ -1006,7 +1006,7 @@
     <Content Include="Scripts\angular\i18n\angular-locale_zu.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\cart.js" />
+    <Content Include="Scripts\shop.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />

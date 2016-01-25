@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\CartDevInfo.cs" />
     <Compile Include="Entities\Developer.cs" />
     <Compile Include="Entities\ShopCart.cs" />
     <Compile Include="Entities\ShopRepository.cs" />

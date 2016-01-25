@@ -1,28 +1,46 @@
 ﻿<script type="text/javascript" src="Scripts/angular/angular.min.js"></script>
-<script type="text/javascript" src="Scripts/cart.js"></script>
 <script type="text/javascript" src="Scripts/jquery-2.2.0.min.js"></script>
 <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
-<link rel="stylesheet" href="Content/bootstrap.min.css" />
+<script type="text/javascript" src="Scripts/shop.js"></script>
 
-
-<div ng-app="shopCart">
+<div ng-app="shopList">
     <div id="devsList" ng-controller="FormCtrl">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-1">
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <form class="form-inline">
-                    <h1>Dev Shop</h1>
                     <h3>Add organization name</h3>
                     <input class="form-control" type="text" ng-model="orgName" name="orgName" placeholder="Organization" />
                     <button class="form-control" type="submit" id="submit" ng-click="submitForm()" value="Submit">Submit</button>
                 </form>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-2">
+
+            <div class="col-sm-2" ng-show="showCart">
+                
+                    <p class="site-title">
+                        <h5>Cart</h5>
+                    </p>
+
+                    <table class="table">
+                        <tr>
+                            <th>Username</th>
+                            <th>Price</th>
+                        </tr>
+                        <tr ng-repeat="item in cart">
+                            <td>{{item.Username}}</td>
+                            <td>{{item.TotalPrice}}</td>
+                        </tr>
+                    </table>
+
+
             </div>
-            <div class="col-sm-6">
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+            <div class="col-sm-8">
                 <h3 ng-show="showDevs">Developers List</h3>
                 <table class="table" ng-show="showDevs">
                     <tr>

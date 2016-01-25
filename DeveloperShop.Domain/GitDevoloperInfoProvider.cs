@@ -27,7 +27,8 @@ namespace DeveloperShop.Domain
                 {
                     Avatar = userInfo.AvatarUrl,
                     Username = userInfo.Login,
-                    Followers = userInfo.Followers
+                    Followers = userInfo.Followers,
+                    Repos = userInfo.TotalPrivateRepos + userInfo.PublicRepos
                     //Stars = _gitHubClient.Repository.GetAllForUser(username).Result.Sum(x => x.StargazersCount),
                     //Watchers = _gitHubClient.Activity.Watching.GetAllForUser(username).Result.Count
                 };
@@ -43,8 +44,8 @@ namespace DeveloperShop.Domain
             var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
             var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
             var orgDevs = await orgMembers.GetAll(organizationName);
-            return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login}).ToList();
-            //return orgDevs.Select(x => GetDeveloperInfo(x.Login).Result);
+            //return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login, Repos = x.PublicRepos + x.TotalPrivateRepos}).ToList();
+            return orgDevs.Select(x => GetDeveloperInfo(x.Login).Result);
         }
     }
 }

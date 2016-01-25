@@ -19,11 +19,13 @@ namespace DeveloperShop.Domain.Entities
         
         public int Watchers { get; set; }
 
+        public int Repos { get; set; }
+
         public double Price
         {
             get
             {
-                return 25.5d + (3 * Followers) + (2 * Stars ) + Watchers;
+                return 25.5d + (3 * Followers) + (2 * Stars ) + Watchers + (0.2 * Repos);
             }
         }
     }

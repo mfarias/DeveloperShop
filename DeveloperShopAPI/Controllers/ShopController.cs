@@ -40,16 +40,6 @@ namespace DeveloperShopAPI.Controllers
         {
             return await _gitProvider.GetDevelopersFromOrganization(org);
 
-            //var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
-            //var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
-            //var devs = await orgMembers.GetAll(org);
-            //return devs.Select(x => _gitProvider.GetDeveloperInfo(x.Login)).ToList();
-
-            //return devs.Select(x => new Developer
-            //{
-            //    Avatar = x.AvatarUrl,
-            //    Username = x.Login
-            //}).ToList();
         }
 
         // POST api/shop/addtocart/{dev}/{hours}

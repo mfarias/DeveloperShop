@@ -44,8 +44,8 @@ namespace DeveloperShop.Domain
             var connection = new Connection(new ProductHeaderValue("DeveloperShop"));
             var orgMembers = new OrganizationMembersClient(new ApiConnection(connection));
             var orgDevs = await orgMembers.GetAll(organizationName);
-            //return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login, Repos = x.PublicRepos + x.TotalPrivateRepos}).ToList();
-            return orgDevs.Select(x => GetDeveloperInfo(x.Login).Result);
+            return orgDevs.Select(x => new Developer { Avatar = x.AvatarUrl, Username = x.Login, Repos = x.PublicRepos + x.TotalPrivateRepos}).ToList();
+            //return orgDevs.Select(x => GetDeveloperInfo(x.Login).Result);
         }
     }
 }
